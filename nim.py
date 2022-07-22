@@ -137,13 +137,13 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
-        max_reward = 0
+        Max_action_reward = 0
 
         for sta, q in self.q.items():
-            if sta[0] == state and q > max_reward:
+            if sta[0] == state and q > Max_action_reward:
                 max_reward = q
 
-        return max_reward
+        return Max_action_reward
 
 
 
@@ -165,31 +165,32 @@ class NimAI():
         If multiple actions have the same Q-value, any of those
         options is an acceptable return value.
         """
-        max_reward = 0
-        best_action = None
+        Best_action = None
+        Max_action_reward = 0
+        
 
-        available_moves = Nim.available_actions(state)
+        avail_actions = Nim.available_actions(state)
 
-        for move in available_moves:
+        for action in avail_actions:
             try:
                 q = self.q[tuple(state), move]
             except KeyError:
                 q = 0
 
-            if q > max_reward:
-                max_reward = q
-                best_action = move
+            if q > Max_action_reward:
+                Max_action_reward = q
+                 Best_action = action
 
-        if max_reward == 0:
-            return random.choice(tuple(available_moves))
+        if Max_action_reward == 0:
+            return random.choice(tuple(avail_actions))
 
         if not epsilon:
-            return best_action
+            return Best_action
         else:
             if random.random() < self.epsilon:
-                return random.choice(tuple(available_moves))
+                return random.choice(tuple(avail_actions))
             else:
-                return best_action
+                return Best_action
         
 
 def train(n):
